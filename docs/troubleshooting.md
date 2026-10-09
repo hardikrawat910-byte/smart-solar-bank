@@ -1,6 +1,8 @@
 # Problems we faced and how we solved them
 
-These are the faults we hit while building the project, in the order we met them. The short circuit through the shunt (3) and finding out the pack is 2S (6) shaped the final design.
+These are the faults we hit across both builds, in the order we met them. The short circuit through the shunt (3), finding out the old pack was 2S (6), and moving to a single-cell pack (v2) shaped the final design.
+
+## v1 — 2S pack and LM2596
 
 | # | What we saw | Cause | Fix |
 | :---: | --- | --- | --- |
@@ -16,6 +18,16 @@ These are the faults we hit while building the project, in the order we met them
 | 10 | Non-rechargeable cells in the kit | Saft LS14500 primary lithium cells | Kept them out of the build |
 | 11 | IDE pop-up: `Unable to find executable file ... .ino.elf` | The debug button was pressed before the compile had finished | Closed the pop-up; used the Upload (→) button |
 
+## v2 — 1S pack and power bank board
+
+| # | What we saw | Cause | Fix |
+| :---: | --- | --- | --- |
+| 12 | `LOW BATTERY`, `Cell=1.85 V`, 0% on a healthy pack reading 3.7 V | v1 firmware still assumed 2 cells and halved the voltage | Firmware set to `CELLS_IN_SERIES = 1`, 5200 mAh; readings became 3.71 V and 36–37% |
+| 13 | LM2596 left in the circuit with the 3.7 V pack | A buck converter can only lower voltage; it cannot make 5 V from 3.7 V | Removed it; the power bank board's boost converter makes the 5 V |
+| 14 | Phone showed "charging" for a moment, then stopped | Most likely voltage sag: 2–3 A through the 0.1 Ω shunt and thin jumpers drops the board's input below its cut-off | Demo with an LED or fan; next step is short, thick battery wiring or a lower-value shunt |
+
+**Not a fault:** at rest the dashboard shows 4–8 mA and IDLE. That current is the power bank board's own standby draw. It shows up because the board's B+ is fed through the sensor, which also proves the wiring is correct. The firmware treats anything under ±20 mA as IDLE.
+
 ## The short circuit (problem 3)
 
 ![Serial Monitor during the short](images/serial_monitor_short_circuit.jpg)
@@ -26,7 +38,9 @@ These are the faults we hit while building the project, in the order we met them
 
 | Serial Monitor shows | Check |
 | --- | --- |
-| `INA219 NOT found` | VCC to 3V3 (not VIN), GND, SDA to D21, SCL to D22; run `i2c_scanner` |
+| `Battery INA219 (0x40) NOT found` | VCC to 3V3 (not VIN), GND, SDA to D21, SCL to D22; run `i2c_scanner` |
+| `Solar INA219 (0x41) not fitted` | Normal without sensor #2; if fitted, check the A0 pads are bridged and the four wires |
+| `LOW BATTERY` on a 3.7 V pack | `CELLS_IN_SERIES` is wrong for your pack |
 | `V` about 0.9 V or 3.0 V, `I` about 0 mA | Pack − is not connected to INA219 GND |
 | `I=3200.0 mA` | Disconnect pack + now; pack − is touching VIN− somewhere |
 | Correct `V` but 0 mA with a load on | The load is not fed from VIN−; the sensor is bypassed |
