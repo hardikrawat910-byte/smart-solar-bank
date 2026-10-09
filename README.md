@@ -4,19 +4,7 @@ An 18650 battery bank that measures its own voltage, current and energy, and sho
 
 ![ESP32](https://img.shields.io/badge/board-ESP32%20DevKit%20V1-1f6feb) ![INA219](https://img.shields.io/badge/sensor-INA219-orange) ![Arduino](https://img.shields.io/badge/IDE-Arduino%202.3-00979D) ![Status](https://img.shields.io/badge/status-working%20prototype-2ea043)
 
-| | |
-| --- | --- |
-| **Course** | [Subject / course name] |
-| **Department / College** | [Department], [College] |
-| **Guide** | [Guide name] |
-| **Submitted** | 9 October 2026 |
-
-| # | Team member | Roll number |
-| :---: | --- | --- |
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
+A side project by **Hardik Rawat**, **Shivraj Morde** and **Ismail Mohammed**.
 
 ---
 
