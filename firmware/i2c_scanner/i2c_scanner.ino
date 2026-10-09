@@ -3,7 +3,7 @@
   --------------------------------------------------------
   Wiring : INA219 VCC -> ESP32 3V3, GND -> GND, SDA -> D21, SCL -> D22
   Use    : upload, open Serial Monitor at 115200 baud
-  Result : "Found 0x40" = INA219 OK
+  Result : "Found 0x40" = battery INA219 OK ("Found 0x41" = solar INA219 OK)
            "--- scan done ---" with nothing found = check the four wires
 */
 

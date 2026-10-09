@@ -1,5 +1,5 @@
 /*
-  SMART SOLAR BANK - Final version
+  LEGACY v1 - 2S pack + LM2596 build (superseded by firmware/sunvolt)
   ==================================================================
   ESP32 DevKit V1 + INA219 battery monitor with a Wi-Fi dashboard
 
